@@ -19,9 +19,7 @@ using System.Windows.Shapes;
 
 namespace Udpclient
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -32,13 +30,13 @@ namespace Udpclient
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var Client = new TcpClient();
-            Client.Connect("192.168.1.5", 62100);
+            Client.Connect("10.2.27.46", 61932);
 
             MyStream = Client.GetStream();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
+        { 
 
             try
             {
@@ -46,20 +44,19 @@ namespace Udpclient
 
                 MyStream.Read(buffer, 0, buffer.Length);
 
-
-                var image = new BitmapImage();
+                var img = new BitmapImage();
                 using (var mem = new MemoryStream(buffer))
                 {
                     mem.Position = 0;
-                    image.BeginInit();
-                    image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.UriSource = null;
-                    image.StreamSource = mem;
-                    image.EndInit();
+                    img.BeginInit();
+                    img.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                    img.CacheOption = BitmapCacheOption.OnLoad;
+                    img.UriSource = null;
+                    img.StreamSource = mem;
+                    img.EndInit();
                 }
-                image.Freeze();
-                Img.Source = image;
+                img.Freeze();
+                Img.Source = img;
             }
             catch (Exception ex)
             {

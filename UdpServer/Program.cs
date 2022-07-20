@@ -9,11 +9,11 @@ class Program
 
     static void Main(string[] args)
     {
-        var ip = IPAddress.Parse("192.168.1.5");
-        var port = 62100;
+        var ip = IPAddress.Parse("10.2.27.46");
+        var port = 61932;
         var TcpServer = new TcpListener(ip, port);
 
-        Console.WriteLine("Lisening ", ip);
+        Console.WriteLine("Lisening ip===== ", ip);
 
         TcpServer.Start(100);
         List<TcpClient> clients = new List<TcpClient>();
@@ -22,8 +22,8 @@ class Program
             while (true)
             {
                 var client = TcpServer.AcceptTcpClient();
-                clients.Add(client);
-                Console.WriteLine($"{client.Client.RemoteEndPoint} Client Connected");
+                
+                Console.WriteLine($"{client.Client.RemoteEndPoint} ----------- Connected");
             }
         });
         while (true)
@@ -31,21 +31,21 @@ class Program
             while (true)
             {
                 var ServerText = Console.ReadLine();
-                if (ServerText == "Send")
+                if (ServerText == "Send image")
                     break;
             }
             using var bitmap = new Bitmap(1920, 1080);
             using (var g = Graphics.FromImage(bitmap))
-            {
+            { 
                 g.CopyFromScreen(0, 0, 0, 0,
                     bitmap.Size, CopyPixelOperation.SourceCopy);
             }
 
-            bitmap.Save("SSA.jpg", ImageFormat.Jpeg);
+            bitmap.Save("lazim.jpg", ImageFormat.Jpeg);
 
-            Image img = (Image)bitmap;
+            Image image = (Image)bitmap;
 
-            byte[] bytes = (byte[])(new ImageConverter()).ConvertTo(img, typeof(byte[]));
+            byte[] bytes = (byte[])(new ImageConverter()).ConvertTo(image, typeof(byte[]));
 
             for (int i = 0; i < clients.Count; i++)
             {
@@ -55,15 +55,7 @@ class Program
                     binaryWriter.Write(bytes.ToArray());
                 }
             }
-            //convert byte array to image
-            //Image myimg;
-            //using (var ms = new MemoryStream(bytes))
-            //{
-            //    myimg=Image.FromStream(ms);
-            //}
-
-
-            //myimg.Save("Hello.jpg", ImageFormat.Jpeg);
+        
 
         }
 
