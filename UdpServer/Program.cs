@@ -13,7 +13,7 @@ class Program
         var port = 61932;
         var TcpServer = new TcpListener(ip, port);
 
-        Console.WriteLine("Lisening ip===== ", ip);
+        Console.WriteLine("Lisening------------ ", ip);
 
         TcpServer.Start(100);
         List<TcpClient> clients = new List<TcpClient>();
@@ -22,8 +22,8 @@ class Program
             while (true)
             {
                 var client = TcpServer.AcceptTcpClient();
-                
-                Console.WriteLine($"{client.Client.RemoteEndPoint} ----------- Connected");
+                clients.Add(client);
+                Console.WriteLine($"{client.Client.RemoteEndPoint}========== Client Connected======");
             }
         });
         while (true)
@@ -31,21 +31,21 @@ class Program
             while (true)
             {
                 var ServerText = Console.ReadLine();
-                if (ServerText == "Send image")
+                if (ServerText == "Send")
                     break;
             }
             using var bitmap = new Bitmap(1920, 1080);
             using (var g = Graphics.FromImage(bitmap))
-            { 
-                g.CopyFromScreen(0, 0, 0, 0,
+            {
+                    g.CopyFromScreen(0, 0, 0, 0,
                     bitmap.Size, CopyPixelOperation.SourceCopy);
             }
 
             bitmap.Save("lazim.jpg", ImageFormat.Jpeg);
 
-            Image image = (Image)bitmap;
+            Image img = (Image)bitmap;
 
-            byte[] bytes = (byte[])(new ImageConverter()).ConvertTo(image, typeof(byte[]));
+            byte[] bytes = (byte[])(new ImageConverter()).ConvertTo(img, typeof(byte[]));
 
             for (int i = 0; i < clients.Count; i++)
             {
@@ -55,7 +55,7 @@ class Program
                     binaryWriter.Write(bytes.ToArray());
                 }
             }
-        
+            
 
         }
 

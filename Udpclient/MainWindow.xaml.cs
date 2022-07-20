@@ -44,19 +44,19 @@ namespace Udpclient
 
                 MyStream.Read(buffer, 0, buffer.Length);
 
-                var img = new BitmapImage();
+                var picture = new BitmapImage();
                 using (var mem = new MemoryStream(buffer))
                 {
                     mem.Position = 0;
-                    img.BeginInit();
-                    img.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                    img.CacheOption = BitmapCacheOption.OnLoad;
-                    img.UriSource = null;
-                    img.StreamSource = mem;
-                    img.EndInit();
+                    picture.BeginInit();
+                    picture.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                    picture.CacheOption = BitmapCacheOption.OnLoad;
+                    picture.UriSource = null;
+                    picture.StreamSource = mem;
+                    picture.EndInit();
                 }
-                img.Freeze();
-                Img.Source = img;
+                picture.Freeze();
+                Img.Source = picture;
             }
             catch (Exception ex)
             {
